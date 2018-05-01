@@ -1,3 +1,79 @@
-<p>
-  mapa-page works!
-</p>
+<app-nav-bar></app-nav-bar>
+<div class="container p-4">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div #gmap class="w-100" style="height: 40em;" ng-click="markerClick($event)" 
+      ></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row d justify-content-center">
+  <div class="col-md-3 col-sm-12 col-xs-12">
+    <button (click)="setMapType('terrain')" class="btn btn-primary">Terrain</button>
+    <button (click)="setMapType('satellite')" class="btn btn-danger">Satellite</button>
+    <button (click)="setMapType('roadmap')" class="btn btn-warning">Road Map</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="agregarPunto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- Título del modal-->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar marcador</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Cuerpo del modal-->
+      <div class="modal-body">
+        <!-- Formulario para agregar un punto-->
+        <form name="tarjeta">
+          <!-- Campo para el nombre del usario-->
+          <div class="form-group">
+            <label for="InputNombreUsuario">Nombre del lugar</label>
+            <input type="text" class="form-control" placeholder="Ej: Reciclamelo">
+          </div>
+
+          <!-- Campo para agregar una descripción del sitio-->
+          <div class="form-group">
+            <label for="Textarea">Descripción</label>
+            <textarea class="form-control" placeholder="Reciclamos plasticos de todo tipo" rows="3"></textarea>
+          </div>
+
+          <!-- Grupo de radiobuttons para seleccionar el icon del lugar-->
+          <div class="form-group">
+            <h2>Selecciona el tipo de reciclaje</h2>
+            <div class="container row">
+
+              <!-- Radiobutton reciclaje de botellas-->
+              <div class="col-md-4">
+                <input type="radio" class="form-check-input" name="optionsRadios" id="reciclaje" value="Bottle" checked>
+                <img class="w-50 h-50" src="img/bottle.svg" alt="Botella reciclada">
+              </div>
+              <!-- Radiobutton reciclaje de lamparas-->
+              <div class="col-md-4">
+                <input type="radio" class="form-check-input" name="optionsRadios" id="reciclaje" value="Lamp">
+                <img class="w-50 h-50" src="img/lamp.svg" alt="Lampara reciclada">
+              </div>
+              <!-- Radiobutton reciclaje de papel-->
+              <div class="col-md-4">
+                <input type="radio" class="form-check-input" name="optionsRadios" id="reciclaje" value="papel">
+                <img class="w-50 h-50" src="img/papel.svg" alt="Papel reciclado">
+              </div>
+            </div>
+          </div>
+          <!-- Final del modal-->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

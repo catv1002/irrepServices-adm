@@ -1,8 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
-
+//Firebase
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+//Envoriment
+import { environment } from '../environments/environment';
+//Services
+import { AuthService } from './servicios/auth.service'
+//Componentes
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './componentes/login-page/login-page.component';
 import { MapaPageComponent } from './componentes/mapa-page/mapa-page.component';
@@ -26,9 +34,15 @@ import { UsuariosPageComponent } from './componentes/usuarios-page/usuarios-page
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
