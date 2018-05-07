@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -16,9 +16,12 @@ import { DatabaseService } from '../../servicios/database.service'
 })
 export class LoginPageComponent implements OnInit {
 
+  @ViewChild('alerta') alerta: ElementRef;
+
   //Form
   public email: string;
   public pass: string;
+  public error: string;
 
   //isLogin
   public isLogin: boolean;
@@ -34,9 +37,13 @@ export class LoginPageComponent implements OnInit {
     public databaseService: DatabaseService
   ) { }
 
-  ngOnInit() {
-    this.authService.getAuth().subscribe(auth => {
 
+  ngAfterViewInit() {
+  }
+
+  ngOnInit() {
+    this.error = "none";
+    this.authService.getAuth().subscribe(auth => {
       if (auth) {
         this.isLogin = true;
         this.nombreUsuario = auth.displayName;
@@ -60,7 +67,7 @@ export class LoginPageComponent implements OnInit {
         this.router.navigate(['/mapa']);
       }).catch((err) => {
         console.log(err);
-        
+        this.error = "block";
       });
   }
 
