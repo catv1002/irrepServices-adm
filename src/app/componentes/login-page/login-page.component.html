@@ -1,4 +1,3 @@
-<div *ngFor="let imagen of imagenesObservable | async">
   <!-- Contenedor principal-->
   <div class="container-fluid h-100 w-100">
     <!-- Contenedor secundario-->
@@ -6,7 +5,7 @@
       <div class="row d-flex  justify-content-center p-3">
         <!-- Logo de la empresa Eveergreen-->
         <div class="col-md-12">
-          <img style="width:12rem" class="card-img-top mx-auto d-block m-2" src="{{imagen.logo}}" alt="Logo Evergreen">
+          <img style="width:12rem" class="card-img-top mx-auto d-block m-2" src="{{imgLogo}}" alt="Logo Evergreen">
           <h2 class="text-center  color-evergreen">Evergreen Network</h2>
         </div>
         <!-- Formulario del login-->
@@ -31,10 +30,8 @@
         </div>
 
         <div class="col-md-12 fixed-bottom mb-4">
-          <img style="width:10rem" class="mx-auto d-block" src="{{imagen.irrepServices}}" alt="Logo IrrepServices">
+          <img style="width:10rem" class="mx-auto d-block" src="{{imgIrrepservices}}" alt="Logo IrrepServices">
         </div>
       </div>
     </div>
-
   </div>
-</div>

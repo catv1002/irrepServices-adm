@@ -1,9 +1,8 @@
-<div *ngFor="let imagen of imagenesObservable | async">
   <!-- Barra navegacional-->
   <nav class="navbar navbar-expand-lg navbar-dark background-nav">
     <!-- Logo en la barra-->
     <a class="navbar-brand color-evergreen text-white">
-      <img src="{{imagen.logo}}" width="30" height="30" class="d-inline-block align-top" alt=""> Evergreen Network
+      <img src="{{imgLogo}}" width="30" height="30" class="d-inline-block align-top" alt=""> Evergreen Network
     </a>
     <!-- Botón que aparece cuando la pantalla es sm-->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -35,4 +34,3 @@
       </ul>
     </div>
   </nav>
-</div>

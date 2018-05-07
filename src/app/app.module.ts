@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
+import { AgmCoreModule } from '@agm/core';
+
+//Ng Boostrap
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 //Firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -10,6 +14,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 //Services
 import { AuthService } from './servicios/auth.service'
+import { DatabaseService } from './servicios/database.service'
 //Componentes
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './componentes/login-page/login-page.component';
@@ -38,10 +43,15 @@ import { UsuariosPageComponent } from './componentes/usuarios-page/usuarios-page
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    FormsModule
+    FormsModule,
+    NgbModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCJXILj9GFk6hhFMAy4MmkfqZfiRvD12jQ'
+    })
   ],
   providers: [
-    AuthService
+    AuthService,
+    DatabaseService
   ],
   bootstrap: [AppComponent]
 })

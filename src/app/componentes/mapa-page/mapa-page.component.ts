@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ViewChild } from '@angular/core';
-import { } from '@types/googlemaps';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MouseEvent } from '@agm/core';
+import { Observable } from 'rxjs/Observable'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { DatabaseService } from '../../servicios/database.service';
+
 
 @Component({
   selector: 'app-mapa-page',
@@ -8,70 +12,73 @@ import { } from '@types/googlemaps';
   styleUrls: ['./mapa-page.component.scss']
 })
 export class MapaPageComponent implements OnInit {
-  @ViewChild('gmap') gmapElement: any;
-  map: google.maps.Map;
-  marker: google.maps.Marker;
+  @ViewChild('content') content: any;
+  // google maps zoom level
+  zoom: number = 15;
+  lat: number = 3.353496;
+  lng: number = -76.5210035;
 
-  latitude: any;
-  longitude: any;
+  //imagenes de la db
+  imagenesObservable: Observable<any[]>;
+  closeResult: string;
+
+
+  constructor(
+    public databaseServices: DatabaseService,
+    private modalService: NgbModal
+  ) {
+    this.imagenesObservable = this.databaseServices.getData('/imgMapa');
+  }
+  clickedMarker(label: string, index: number) {
+    console.log(`clicked the marker: ${label || index}`)
+  }
+
+  mapClicked($event: MouseEvent) {
+    this.markers.push({
+      lat: $event.coords.lat,
+      lng: $event.coords.lng,
+      draggable: true
+    });
+
+    this.modalService.open(this.content);
+    console.log("latitud " + $event.coords.lat);
+    console.log("Longitud " + $event.coords.lng);
+
+  }
+
+  markerDragEnd(m: marker, $event: MouseEvent) {
+    console.log('dragEnd', m, $event);
+  }
+
+  markers: marker[] = [
+    {
+      lat: 51.673858,
+      lng: 7.815982,
+      label: 'A',
+      draggable: true
+    },
+    {
+      lat: 51.373858,
+      lng: 7.215982,
+      label: 'B',
+      draggable: false
+    },
+    {
+      lat: 51.723858,
+      lng: 7.895982,
+      label: 'C',
+      draggable: true
+    }
+  ]
 
   ngOnInit() {
-    var mapProp = {
-      //center: new google.maps.LatLng(3.353496, -76.5210035),
-      center: new google.maps.LatLng(3.3996337417569444, -76.56397538806482),
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-
-    this.map.addListener('click', function (e) {
-      console.log(e.latLng.lat[0]);
-      console.log(e);
-    });
-
-    /*     this.gmapElement.nativeElement.addEventListener('click', function(e) {
-       console.log(e.LatLng);
-    });*/
   }
+}
 
-  setMapType(mapTypeId: string) {
-    this.map.setMapTypeId(mapTypeId)
-  }
-
-  setCenter() {
-    this.map.setCenter(new google.maps.LatLng(this.latitude, this.longitude));
-    let location = new google.maps.LatLng(this.latitude, this.longitude);
-    let marker = new google.maps.Marker({
-      position: location,
-      map: this.map,
-      title: 'Got you!'
-    });
-
-    console.log(marker);
-
-    marker.addListener('click', this.simpleMarkerHandler);
-
-    marker.addListener('click', () => {
-      this.markerHandler(marker);
-    });
-  }
-
-  simpleMarkerHandler() {
-    alert('Simple Component\'s function...');
-  }
-
-  markerHandler(marker: google.maps.Marker) {
-    alert('Marker\'s Title: ' + marker.getTitle());
-  }
-
-  //Pinta el marcador según el radiobutton seleccionado
-  placeMarkerAndPanTo(latLng, map) {
-    var marker = new google.maps.Marker({
-      position: latLng,
-      map: map,
-      animation: google.maps.Animation.DROP
-    });
-
-    map.panTo(latLng);
-  }
+// just an interface for type safety.
+interface marker {
+  lat: number;
+  lng: number;
+  label?: string;
+  draggable: boolean;
 }
