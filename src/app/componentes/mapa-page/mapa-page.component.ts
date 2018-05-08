@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MouseEvent } from '@agm/core';
 import { Observable } from 'rxjs/Observable'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { Marker } from '../../models/market'
 import { DatabaseService } from '../../servicios/database.service';
 
 
@@ -13,72 +13,56 @@ import { DatabaseService } from '../../servicios/database.service';
 })
 export class MapaPageComponent implements OnInit {
   @ViewChild('content') content: any;
-  // google maps zoom level
+  @ViewChild('closeBtn') closeBtn: any;
+
   zoom: number = 15;
   lat: number = 3.353496;
   lng: number = -76.5210035;
 
   //imagenes de la db
-  imagenesObservable: Observable<any[]>;
-  closeResult: string;
+  listTargets: any;
+  listImagenes: any;
+
+  title: string;
+  latitud: number;
+  longitud: number;
+
+  checkbox = [
+    { value: 0, check: true },
+    { value: 1, check: true },
+    { value: 2, check: true }];
 
 
   constructor(
     public databaseServices: DatabaseService,
-    private modalService: NgbModal
-  ) {
-    this.imagenesObservable = this.databaseServices.getData('/imgMapa');
-  }
-  clickedMarker(label: string, index: number) {
-    console.log(`clicked the marker: ${label || index}`)
+    private modalService: NgbModal) {
+    // google maps zoom level
+    let imagenesObservable = this.databaseServices.getData('/imgMapa');
+    let cubesObservable = this.databaseServices.getData('/cubes');
+    this.listTargets = cubesObservable;
+    this.listImagenes = imagenesObservable;
   }
 
   mapClicked($event: MouseEvent) {
-    this.markers.push({
-      lat: $event.coords.lat,
-      lng: $event.coords.lng,
-      draggable: true
-    });
-
     this.modalService.open(this.content);
-    console.log("latitud " + $event.coords.lat);
-    console.log("Longitud " + $event.coords.lng);
-
+    this.latitud = $event.coords.lat;
+    this.longitud = $event.coords.lng;
   }
 
-  markerDragEnd(m: marker, $event: MouseEvent) {
-    console.log('dragEnd', m, $event);
-  }
 
-  markers: marker[] = [
-    {
-      lat: 51.673858,
-      lng: 7.815982,
-      label: 'A',
-      draggable: true
-    },
-    {
-      lat: 51.373858,
-      lng: 7.215982,
-      label: 'B',
-      draggable: false
-    },
-    {
-      lat: 51.723858,
-      lng: 7.895982,
-      label: 'C',
-      draggable: true
-    }
-  ]
+  addMapa() {
+    console.log(this.title);
+    console.log(this.latitud);
+    console.log(this.longitud);
+    this.checkbox.forEach(element => {
+      console.log(element);
+      if (element.check) {
+        this.databaseServices.addTarget(this.title, this.latitud, this.longitud, element.value);
+      }
+    });
+  }
 
   ngOnInit() {
   }
 }
 
-// just an interface for type safety.
-interface marker {
-  lat: number;
-  lng: number;
-  label?: string;
-  draggable: boolean;
-}

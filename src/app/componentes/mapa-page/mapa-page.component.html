@@ -1,15 +1,18 @@
+<!-- Barra navegacional-->
 <app-nav-bar></app-nav-bar>
+<!-- Contenedor del mapa-->
 <div class="container p-4">
-  <agm-map class="w-100" style="height: 40em;" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
-    [zoomControl]="false" (mapClick)="mapClicked($event)">
-    <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng"
-      [label]="m.label" [markerDraggable]="m.draggable" (dragEnd)="markerDragEnd(m, $event)">
-      <agm-info-window>
-        <strong>InfoWindow content</strong>
-      </agm-info-window>
-    </agm-marker>
+  <!-- Componente del mapa: usando agm-map-->
+
+  <agm-map class="w-100" style="height: 40em;" [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="mapClicked($event)">
+    <!-- marcadores del mapa, iterados-->
+    <div *ngFor="let m of listTargets | async">
+      <agm-marker [latitude]="m.lat" [longitude]="m.lng" [label]="m.title"></agm-marker>
+    </div>
   </agm-map>
 </div>
+
+<!-- component boostrap- modal-->
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -20,36 +23,34 @@
   </div>
   <div class="modal-body">
     <!-- Formulario para agregar un punto-->
-    <form name="tarjeta">
+    <form id="mapa" #myForm="ngForm" (ngSubmit)="addMapa(); myForm.reset(); c('Close click')">
       <!-- Campo para el nombre del usario-->
       <div class="form-group">
         <label for="InputNombreUsuario">Nombre del lugar</label>
-        <input type="text" class="form-control" placeholder="Ej: Reciclamelo">
+        <input type="text" name="title" [(ngModel)]="title" class="form-control" placeholder="Ej: Reciclamelo">
       </div>
-
-      <!-- Campo para agregar una descripción del sitio-->
-      <div class="form-group">
-        <label for="Textarea">Descripción</label>
-        <textarea class="form-control" placeholder="Reciclamos plasticos de todo tipo" rows="3"></textarea>
-      </div>
-
-      <!-- Grupo de radiobuttons para seleccionar el icon del lugar-->
+      <!-- Grupo de checkbox para seleccionar el icon del lugar-->
       <div class="form-group">
         <h2>Selecciona el tipo de reciclaje</h2>
         <div class="container" style="height: 8em;">
           <div class="row d-flex justify-content-between">
-             <!-- Radiobutton reciclaje de botellas-->
-          <div class="col-md-3" *ngFor="let datos of imagenesObservable | async">
-              <input type="radio" class="form-check-input" name="optionsRadios" id="reciclaje" value="Bottle" checked>
+            <!-- Radiobutton reciclaje de botellas-->
+            <div class="col-md-3" *ngFor="let datos of listImagenes | async; let i = index">
+              <input type="checkbox" id="type" name="type[]" class="form-check-input" value="checkbox[i].value" [(ngModel)]="checkbox[i].check"
+                checked>
               <img class="evergreen-sizeImg" src="{{datos.url}}" alt="{{datos.descripcion}}">
+            </div>
+            <div class="form-check">
             </div>
           </div>
         </div>
       </div>
-      <!-- Final del modal-->
     </form>
   </div>
+  <!-- Final del modal-->
   <div class="modal-footer">
-    <button type="button" class="btn btn-success" (click)="('Close click')">Close</button>
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')" #closeBtn>Cancelar</button>
+    <input type="submit" form="mapa" class="btn btn-success" value="Crear">
   </div>
+
 </ng-template>
