@@ -7,50 +7,41 @@
   <agm-map class="w-100" style="height: 40em;" [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="mapClicked($event)">
     <!-- marcadores del mapa, iterados-->
     <div *ngFor="let m of listTargets | async">
-      <agm-marker [latitude]="m.lat" [longitude]="m.lng" [label]="m.title"></agm-marker>
+      <agm-marker [latitude]="m.lat" [longitude]="m.lng" [iconUrl]="icon">
+      </agm-marker>
     </div>
   </agm-map>
 </div>
 
 <!-- component boostrap- modal-->
 
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Agregar marcador</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
+<ng-template #content let-c="close " let-d="dismiss ">
+  <div class="modal-header ">
+    <h4 class="modal-title ">Agregar marcador</h4>
+    <button type="button " class="close " aria-label="Close " (click)="d('Cross click') ">
+      <span aria-hidden="true ">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body ">
     <!-- Formulario para agregar un punto-->
-    <form id="mapa" #myForm="ngForm" (ngSubmit)="addMapa(); myForm.reset(); c('Close click')">
+    <form id="mapa " #myForm="ngForm" (ngSubmit)="addMapa(); myForm.reset(); c('Close click')">
       <!-- Campo para el nombre del usario-->
-      <div class="form-group">
-        <label for="InputNombreUsuario">Nombre del lugar</label>
-        <input type="text" name="title" [(ngModel)]="title" class="form-control" placeholder="Ej: Reciclamelo">
+      <div class="form-group ">
+        <label for="InputNombreUsuario ">Nombre del lugar</label>
+        <input type="text " name="title" [(ngModel)]="title" class="form-control " placeholder="Ej: Reciclamelo " required>
       </div>
-      <!-- Grupo de checkbox para seleccionar el icon del lugar-->
-      <div class="form-group">
-        <h2>Selecciona el tipo de reciclaje</h2>
-        <div class="container" style="height: 8em;">
-          <div class="row d-flex justify-content-between">
-            <!-- Radiobutton reciclaje de botellas-->
-            <div class="col-md-3" *ngFor="let datos of listImagenes | async; let i = index">
-              <input type="checkbox" id="type" name="type[]" class="form-check-input" value="checkbox[i].value" [(ngModel)]="checkbox[i].check"
-                checked>
-              <img class="evergreen-sizeImg" src="{{datos.url}}" alt="{{datos.descripcion}}">
-            </div>
-            <div class="form-check">
-            </div>
-          </div>
-        </div>
+      <!-- Campo para la direccion-->
+      <div class="form-group ">
+        <label for="InputNombreUsuario ">Dirección del contenedor </label>
+        <input type="text" name="dir" [(ngModel)]="dir" class="form-control" id="direccion" required>
       </div>
     </form>
   </div>
   <!-- Final del modal-->
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')" #closeBtn>Cancelar</button>
-    <input type="submit" form="mapa" class="btn btn-success" value="Crear">
+  <div class="modal-footer ">
+    <button type="button" class="btn btn-secondary " (click)="c('Close click') " #closeBtn>Cancelar</button>
+
+    <input type="submit" form="mapa " class="btn btn-success " value="Crear ">
   </div>
 
 </ng-template>

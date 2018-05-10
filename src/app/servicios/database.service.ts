@@ -14,12 +14,15 @@ export class DatabaseService {
     return this.db.list(listPath).valueChanges();
   }
 
-  addTarget(title,latitud,longitud,type){
+  addTarget(title,latitud,longitud,direccion,barrio,ciudad,pais){
     var postData = {
       title: title,
       lat: latitud,
       lng: longitud,
-      type: type,
+      dir:direccion,
+      neighborhood:barrio,
+      city:ciudad,
+      country:pais,
       status: false,
       capacity: 0
     };
