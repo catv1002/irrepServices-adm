@@ -3,7 +3,7 @@
 <!-- Contenedor del mapa-->
 <!-- Componente del mapa: usando agm-map-->
 
-<agm-map class="w-100" style="height: 39em;" [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="mapClicked($event)">
+<agm-map class="w-100" style="height: 46.5em;" [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="mapClicked($event)">
     <!-- marcadores del mapa, iterados-->
     <div *ngFor="let m of listTargets | async">
       <agm-marker [latitude]="m.lat" [longitude]="m.lng" [iconUrl]="icon">
