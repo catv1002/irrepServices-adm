@@ -1,18 +1,24 @@
 <!-- Barra navegacional-->
 <app-nav-bar></app-nav-bar>
 <!-- Contenedor del mapa-->
-<div class="container p-4">
-  <!-- Componente del mapa: usando agm-map-->
+<!-- Componente del mapa: usando agm-map-->
 
-  <agm-map class="w-100" style="height: 40em;" [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="mapClicked($event)">
+<agm-map class="w-100" style="height: 39em;" [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="mapClicked($event)">
     <!-- marcadores del mapa, iterados-->
     <div *ngFor="let m of listTargets | async">
       <agm-marker [latitude]="m.lat" [longitude]="m.lng" [iconUrl]="icon">
+        <agm-info-window>
+          <div class="p-2">
+            <h4>
+              <strong>{{m.title}}</strong>
+            </h4>
+            <hr>
+            <p>{{m.neighborhood}} {{m.dir}}</p>
+          </div>
+        </agm-info-window>
       </agm-marker>
     </div>
   </agm-map>
-</div>
-
 <!-- component boostrap- modal-->
 
 <ng-template #content let-c="close " let-d="dismiss ">

@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MouseEvent, MapsAPILoader } from '@agm/core';
 import { Observable } from 'rxjs/Observable'
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Marker } from '../../models/market'
 import { DatabaseService } from '../../servicios/database.service';
 import { } from '@types/googlemaps';
-import { isContext } from 'vm';
+import { snapshotChanges } from 'angularfire2/database';
+import { element } from 'protractor';
+
 
 declare var google: any;
 
@@ -30,19 +32,15 @@ export class MapaPageComponent implements OnInit {
   title: string;
   latitud: number;
   longitud: number;
-  
+
   dir: string;
-  pais:string;
-  ciudad:string;
-  barrio:string;
+  pais: string;
+  ciudad: string;
+  barrio: string;
 
 
   icon = {
-    url: ('../../../assets/img/waste.svg'),
-    scaledSize: {
-      height: 40,
-      width: 20
-    }
+    url: ('../../../assets/img/32.png'),
   };
 
 
@@ -53,7 +51,7 @@ export class MapaPageComponent implements OnInit {
 
     // google maps zoom level
     let imagenesObservable = this.databaseServices.getData('/imgMapa');
-    let cubesObservable = this.databaseServices.getData('/cubes');
+    let cubesObservable = this.databaseServices.getData('/cubes/');
     this.listTargets = cubesObservable;
     this.listImagenes = imagenesObservable;
 
@@ -75,8 +73,7 @@ export class MapaPageComponent implements OnInit {
     console.log(this.barrio);
     console.log(this.pais);
     console.log(this.ciudad);
-
-    this.databaseServices.addTarget(this.title, this.latitud, this.longitud, this.dir,this.barrio,this.ciudad,this.pais);
+    this.databaseServices.addTarget(this.title, this.latitud, this.longitud, this.dir, this.barrio, this.ciudad, this.pais);
   }
 
   getAddress() {
@@ -86,13 +83,14 @@ export class MapaPageComponent implements OnInit {
       var geocoder = new google.maps.Geocoder();
       var latlng = { lat: parseFloat(this.latitud.toString()), lng: parseFloat(this.longitud.toString()) };
       geocoder.geocode({ 'location': latlng }, function (results, status) {
-        
-        self.dir = results[0].address_components[1].long_name +" "+results[0].address_components[0].long_name;
+
+        //self.dir = results[0].address_components[1].long_name + " " + results[0].address_components[0].long_name;
+        self.dir=results[0].formatted_address;
         self.pais = results[0].address_components[5].long_name;
         self.barrio = results[1].address_components[0].long_name;
         self.ciudad = results[1].address_components[1].long_name;
-        
-        console.log(results);
+
+        console.log();
         (<HTMLInputElement>document.getElementById("direccion")).value = this.dir;
       });
     });

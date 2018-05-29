@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AgmCoreModule } from '@agm/core';
 
 //Ng Boostrap
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //Firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -44,6 +44,7 @@ import { UsuariosPageComponent } from './componentes/usuarios-page/usuarios-page
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCJXILj9GFk6hhFMAy4MmkfqZfiRvD12jQ'
